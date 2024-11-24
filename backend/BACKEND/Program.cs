@@ -1,4 +1,5 @@
 using BACKEND.Data; // Your DbContext
+using BACKEND.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,9 @@ builder.Services.AddDbContext<AlbCampDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
     // options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")); // For SQL Server
 });
+
+builder.Services.Configure<JWTSettings>(builder.Configuration.GetSection("JwtSettings"));
+
 
 var app = builder.Build();
 
