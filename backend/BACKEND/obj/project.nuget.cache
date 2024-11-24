@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "JxIeLeJft3mzlTrr1kZi/g10BOe3qDBiLCPx9eamomRwj8wSXHwxZw3DJBiqLCtCZFBeq4Ib4IqpMZmEJcIEtw==",
+  "dgSpecHash": "ikqr/giX/kBN7krLQ5/jVDZILjukfEgsimMDtdrRWXjYc+sHs3cSS/F5xl6ndiwmHwZqclD/ymyzriOnqXOjNg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Sidra\\SEXHproject\\backend\\BACKEND\\BACKEND.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Sidra\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\Sidra\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
+    "C:\\Users\\Sidra\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\Sidra\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Sidra\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "C:\\Users\\Sidra\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\3.3.3\\microsoft.codeanalysis.analyzers.3.3.3.nupkg.sha512",

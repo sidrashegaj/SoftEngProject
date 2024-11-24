@@ -25,7 +25,7 @@ namespace BACKEND.Models
 
 
         public ICollection<Review> Reviews { get; set; }
-        [JsonIgnore] // prevents circular references when serializing to JSON
+        [JsonIgnore]
         public ICollection<Campground> Campgrounds { get; set; }
     }
     public class RegisterDto
