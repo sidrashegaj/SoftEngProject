@@ -1,0 +1,70 @@
+{
+  "hash": "a1e8370a",
+  "configHash": "f9395b82",
+  "lockfileHash": "fd119fd0",
+  "browserHash": "14517761",
+  "optimized": {
+    "@angular/common/http": {
+      "src": "../../../../../../node_modules/@angular/common/fesm2022/http.mjs",
+      "file": "@angular_common_http.js",
+      "fileHash": "8724d9cc",
+      "needsInterop": false
+    },
+    "@angular/core": {
+      "src": "../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
+      "file": "@angular_core.js",
+      "fileHash": "71d2a522",
+      "needsInterop": false
+    },
+    "@angular/platform-browser": {
+      "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
+      "file": "@angular_platform-browser.js",
+      "fileHash": "90d390b6",
+      "needsInterop": false
+    },
+    "@angular/router": {
+      "src": "../../../../../../node_modules/@angular/router/fesm2022/router.mjs",
+      "file": "@angular_router.js",
+      "fileHash": "ea7e2b61",
+      "needsInterop": false
+    },
+    "@angular/common": {
+      "src": "../../../../../../node_modules/@angular/common/fesm2022/common.mjs",
+      "file": "@angular_common.js",
+      "fileHash": "c6353363",
+      "needsInterop": false
+    },
+    "rxjs": {
+      "src": "../../../../../../node_modules/rxjs/dist/esm5/index.js",
+      "file": "rxjs.js",
+      "fileHash": "8a34c13f",
+      "needsInterop": false
+    },
+    "mapbox-gl": {
+      "src": "../../../../../../node_modules/mapbox-gl/dist/mapbox-gl.js",
+      "file": "mapbox-gl.js",
+      "fileHash": "b775702e",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "chunk-ZAELFB7D": {
+      "file": "chunk-ZAELFB7D.js"
+    },
+    "chunk-DMNBANZU": {
+      "file": "chunk-DMNBANZU.js"
+    },
+    "chunk-QC4VGCZV": {
+      "file": "chunk-QC4VGCZV.js"
+    },
+    "chunk-YKTADYVW": {
+      "file": "chunk-YKTADYVW.js"
+    },
+    "chunk-ZSY7TSMJ": {
+      "file": "chunk-ZSY7TSMJ.js"
+    },
+    "chunk-3OV72XIM": {
+      "file": "chunk-3OV72XIM.js"
+    }
+  }
+}

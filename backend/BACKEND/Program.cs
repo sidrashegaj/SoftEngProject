@@ -1,12 +1,20 @@
 using BACKEND.Data; // Your DbContext
-using BACKEND.Services;
+using BACKEND.Services; // Your custom services
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        // Configure the JSON serializer to handle object cycles
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+        options.JsonSerializerOptions.WriteIndented = true; // Optional for readability
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -14,11 +22,36 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AlbCampDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
-    // options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")); // For SQL Server
 });
 
+// Configure CloudinarySettings
+builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
+
+// Register PhotoService
+builder.Services.AddScoped<PhotoService>();
+
+// Configure JWT Settings
 builder.Services.Configure<JWTSettings>(builder.Configuration.GetSection("JwtSettings"));
 
+// Add HttpClient factory
+builder.Services.AddHttpClient();
+
+// Add GeocodingService with Mapbox configuration
+builder.Services.AddScoped<GeocodingService>(provider =>
+    new GeocodingService(
+        provider.GetRequiredService<IHttpClientFactory>(),
+        builder.Configuration["Mapbox:AccessToken"] // Ensure this key exists in appsettings.json
+    )
+);
+
+// Add CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader());
+});
 
 var app = builder.Build();
 
@@ -26,11 +59,18 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AlbCampDbContext>();
-    // Automatically apply migrations to create/update the database schema
     context.Database.Migrate();
+    try
+    {
+        DbInitializer.Initialize(context); // Call the seeder
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"An error occurred seeding the database: {ex.Message}");
+    }
 }
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -38,9 +78,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAll");
 
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
