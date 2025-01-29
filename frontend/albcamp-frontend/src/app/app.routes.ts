@@ -3,8 +3,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CampgroundListComponent } from './components/campground-list/campground-list.component';
-// import { LoginComponent } from './components/login/login.component';
-// import { RegisterComponent } from './components/register/register.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 import { CampgroundDetailComponent } from './components/campground-detail/campground-detail.component';
 import { IndexComponent } from './components/index/index.component';
 // import { AddCampgroundComponent } from './components/add-campground/add-campground.component';
@@ -14,8 +14,8 @@ import { IndexComponent } from './components/index/index.component';
 export const routes: Routes = [
   { path: '', redirectTo: '/campgrounds', pathMatch: 'full' },
   { path: '', component: IndexComponent },
-  //   { path: 'login', component: LoginComponent },
-  //   { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'campgrounds', component: CampgroundListComponent },
   //   { path: 'campgrounds/new', component: AddCampgroundComponent,canActivate: [AuthGuardService]}, 
   { path: 'campgrounds/:id', component: CampgroundDetailComponent },
