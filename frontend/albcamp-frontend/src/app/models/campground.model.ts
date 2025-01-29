@@ -1,19 +1,23 @@
-//import { Review } from "./review.model";
-
 export interface Campground {
-  name: any;
-  campgroundId : number;
-  title: string;
-  description: string;
+  campgroundId: number;
+  name: string;
   location: string;
-  images: { url: string, filename: string }[]; 
-  price: number;  
-  author: {       
-    _id: number;
-    username: string;
-  };
- // reviews?: Review[];  
+  description: string;
+  price: number;
   geometry: {
-    coordinates: number[]; 
+    type: string;
+    coordinates: [number, number];
   };
+  images: Array<{
+    imageId: number;
+    url: string;
+    filename: string;
+  }>;
+  userId: number;
+  author?: {
+    userId: number;
+    username: string;
+    email: string;
+  };
+  reviews?: any[];
 }
