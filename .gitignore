@@ -41,3 +41,21 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Ignore .NET build artifacts
+/bin/
+/obj/
+/debug/
+*.dll
+*.exe
+*.pdb
+*.cache
+*.log
+
+# Ignore IDE-specific files (Visual Studio and Rider)
+*.user
+*.suo
+*.csproj.user
+*.sln.docstates
+.idea/
+
