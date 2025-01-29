@@ -1,50 +1,41 @@
 <div class="container">
-    <br />
-  <!-- Add this div to the HTML file -->
-  <div id="map" ></div>
-  
-    <h1 class="text-center">All Campgrounds</h1>
-    <br />
-    <div class="mb-3 text-center">
-      <!-- <button *ngIf="authService.isAuthenticated()" class="btn btn-primary" [routerLink]="['/campgrounds/new']">
-        Add New Campground
-      </button> -->
-    
-   
-  </div>
-  
-    </div>
-    <div *ngFor="let campground of campgrounds" class="campground-card">
-      <div class="row">
-        <div class="col-md-4" style="background-color: #b0d5d5">
-          <img
-            *ngIf="(campground.images?.length ?? 0) > 0"
-            class="img-fluid"
-            alt=""
-            [src]="campground.images[0].url"
-            crossorigin="anonymous"
-          />
-          <img
-            *ngIf="(campground.images?.length ?? 0) === 0"
-            class="img-fluid"
-            alt=""
-            [src]="getRandomImageUrl()"
-            crossorigin="anonymous"
-          />
-        </div>
-        <div class="col-md-8" style="background-color: #c1e7e7">
-          <div class="card-body">
-            <h5 class="card-title">{{ campground.name }}</h5>
-            <p class="card-text">{{ campground.description }}</p>
-            <p class="card-text">
-              <small class="text-muted">{{ campground.location }}</small>
-            </p>
-            <a class="btn btn-custom" [routerLink]="['/campgrounds', campground.campgroundId]">
-              View {{ campground.title }}
-            </a>
-            
-          </div>
+  <br />
+  <div id="map"></div>
+  <h1 class="text-center">All Campgrounds</h1>
+  <br />
+  <div *ngFor="let campground of campgrounds" class="campground-card">
+    <div class="row">
+      <div class="col-md-4" style="background-color: #b0d5d5">
+        <img
+          *ngIf="(campground.images?.length ?? 0) > 0"
+          class="img-fluid"
+          alt="Campground Image"
+          [src]="campground.images[0].url"
+          crossorigin="anonymous"
+        />
+        <img
+          *ngIf="(campground.images?.length ?? 0) === 0"
+          class="img-fluid"
+          alt="Placeholder Image"
+          [src]="getRandomImageUrl()"
+          crossorigin="anonymous"
+        />
+      </div>
+      <div class="col-md-8" style="background-color: #c1e7e7">
+        <div class="card-body">
+          <h5 class="card-title">{{ campground.name }}</h5>
+          <p class="card-text">{{ campground.description }}</p>
+          <p class="card-text">
+            <small class="text-muted">{{ campground.location }}</small>
+          </p>
+          <a
+            class="btn btn-custom"
+            [routerLink]="['/campgrounds', campground.campgroundId]"
+          >
+            View Details
+          </a>
         </div>
       </div>
     </div>
-  
+  </div>
+</div>

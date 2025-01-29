@@ -26,20 +26,24 @@ namespace BACKEND.Controllers
         }
 
         // GET: api/Campgrounds
+        // GET: api/Campgrounds
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Campground>>> GetCampgrounds([FromQuery] string location)
+        public async Task<ActionResult<IEnumerable<Campground>>> GetCampgrounds([FromQuery] string? location = null)
         {
+            // Start with the base query
             var query = _context.Campgrounds
                                 .Include(c => c.Images)
                                 .Include(c => c.Author)
-                                .AsQueryable(); // Ensures the type remains IQueryable
+                                .AsQueryable();
 
+            // Apply the location filter only if a location is provided
             if (!string.IsNullOrEmpty(location))
             {
                 query = query.Where(c => c.Location.Contains(location));
             }
 
-            var campgrounds = await query.ToListAsync(); // Convert to ListAsync to execute the query
+            // Execute the query and return the results
+            var campgrounds = await query.ToListAsync();
             return Ok(campgrounds);
         }
 
