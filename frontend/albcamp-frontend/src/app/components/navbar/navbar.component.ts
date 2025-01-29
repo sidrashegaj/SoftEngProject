@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 // import { FlashMessageService } from '../../services/flash-message.service';
-// import { AuthService } from '../../services/auth.service';
+
 // import { FlashMessageComponent } from '../flash-message/flash-message.component';
 
 @Component({
@@ -18,9 +19,9 @@ export class NavbarComponent implements OnInit {
   username: string | null = null;
 
   constructor(
-   // private flashMessageService: FlashMessageService,
+    // private flashMessageService: FlashMessageService,
     private router: Router,
-  //  public authService: AuthService
+    public authService: AuthService
   ) { }
   ngOnInit(): void {
     // this.flashMessageService.currentMessage.subscribe((message) => {
@@ -32,15 +33,15 @@ export class NavbarComponent implements OnInit {
   }
 
   // When "New Campground" is clicked
-  // onNewCampgroundClick() {
-  //   if (this.authService.isAuthenticated()) {
-  //     this.router.navigate(['/campgrounds/new']);
-  //   } else {
-  //     if (!this.flashMessage) {
-  //       this.flashMessageService.showMessage('You need to be logged in to add a new campground!', 5000);
-  //     }
-  //   }
-  // }
+  onNewCampgroundClick() {
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['/campgrounds/new']);
+    } else {
+      if (!this.flashMessage) {
+        //   this.flashMessageService.showMessage('You need to be logged in to add a new campground!', 5000);
+      }
+    }
+  }
 
   onLogo(): void {
     this.router.navigate(['/']);
@@ -51,7 +52,7 @@ export class NavbarComponent implements OnInit {
 
 
   onLogout(): void {
-   // this.authService.logout();
+    this.authService.logout();
     this.router.navigate(['/campgrounds']);
   }
   onLoginClick(): void {
