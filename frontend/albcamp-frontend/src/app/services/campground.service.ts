@@ -31,6 +31,20 @@ export class CampgroundService {
       catchError(this.handleError) // Catch errors and handle them
     );
   }
+  updateCampground(id: number, formData: FormData): Observable<Campground> {
+
+    return this.http.put<Campground>(`${this.apiUrl}/${id}`, formData);
+
+  }
+
+  addCampground(formData: FormData): Observable<any> {
+
+    return this.http.post<any>(`${this.apiUrl}`, formData);
+
+  }
+
+
+
   private handleError(error: any): Observable<never> {
     console.error('An error occurred:', error);
     return throwError(() => new Error('Something bad happened; please try again later.'));
