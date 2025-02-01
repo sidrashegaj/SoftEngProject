@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router, RouterModule  } from '@angular/router';
 import { CampgroundService } from '../../services/campground.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common'; 
+import { FlashMessageService } from '../../services/flash-message.service';
 import { AuthService } from '../../services/auth.service';
 import { Campground } from '../../models/campground.model';
-import { FlashMessageService } from '../../services/flash-message.service';
 
 @Component({
   selector: 'app-add-campground',
@@ -32,7 +32,7 @@ export class AddCampgroundComponent implements OnInit {
       location: ['', Validators.required],
       description: ['', Validators.required],
       price: [0, [Validators.required, Validators.min(1)]],
-      images: [null, Validators.required],
+      images: ['', Validators.required],
     });
   }
 
@@ -69,16 +69,16 @@ export class AddCampgroundComponent implements OnInit {
       });
 
       this.campgroundService.addCampground(formData).subscribe({
-        next: (res: any) => {
+        next: (res) => {
           this.flashMessageService.showMessage('Campground added successfully!', 5000);
           this.newCampgroundAdded.emit(res); 
-          this.router.navigate([`/campgrounds/${res.campgroundId}`]);
+          this.router.navigate([`/campgrounds${res.campgroundId}`]);  
         },
-        error: (err: any) => {
+        error: (err) => {
           console.error('Error adding campground', err);
           this.flashMessageService.showMessage('Failed to add campground!', 5000);
         }
-      });
-    }
-  }
+      });
+    }
+  }
 }

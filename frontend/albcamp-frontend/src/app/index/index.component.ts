@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { CampgroundService } from '../../services/campground.service';
+import { CampgroundService } from '../services/campground.service';
 
 @Component({
   selector: 'app-index',

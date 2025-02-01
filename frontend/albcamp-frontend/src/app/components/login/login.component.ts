@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; 
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-// import { FlashMessageService } from '../../services/flash-message.service';
+import { FlashMessageService } from '../../services/flash-message.service';
 
 @Component({
   selector: 'app-login',
@@ -16,9 +16,7 @@ export class LoginComponent {
   password = '';
   error = '';
 
-  constructor(private authService: AuthService, private router: Router, 
-    // private flashMessageService: FlashMessageService
-    ) {}
+  constructor(private authService: AuthService, private router: Router, private flashMessageService: FlashMessageService) {}
 
   
   onSubmit() {
@@ -28,7 +26,7 @@ export class LoginComponent {
       },
       error: (err) => {
         console.error('Login error', err);
-        // this.flashMessageService.showMessage('Login failed!', 5000);
+        this.flashMessageService.showMessage('Login failed!', 5000);
       }
     });
   }
