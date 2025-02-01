@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; //  for ngModel
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-// import { FlashMessageService } from '../../services/flash-message.service';
+import { FlashMessageService } from '../../services/flash-message.service';
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -16,20 +16,18 @@ export class RegisterComponent {
   password: string = '';
   error: string | null = null;
 
-  constructor(private authService: AuthService, private router: Router, 
-   // private flashMessageService: FlashMessageService
-  ) {}
+  constructor(private authService: AuthService, private router: Router, private flashMessageService: FlashMessageService) {}
 
   onSubmit() {
     this.authService.register(this.username, this.email, this.password).subscribe({
       next: (user) => {
-       // this.flashMessageService.showMessage('Welcome :)', 5000);
+        this.flashMessageService.showMessage('Welcome :)', 5000);
         this.router.navigate(['/campgrounds']);  
 
       },
       error: (err) => {
         console.error('Registration error', err);
-      //  this.flashMessageService.showMessage('Registration failed!', 5000);
+        this.flashMessageService.showMessage('Registration failed!', 5000);
       }
     });
   }
