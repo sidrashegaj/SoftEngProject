@@ -34,10 +34,16 @@ namespace BACKEND.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<double>("Latitude")
+                        .HasColumnType("double precision");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("double precision");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -152,31 +158,7 @@ namespace BACKEND.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("BACKEND.Models.Geometry", "Geometry", b1 =>
-                        {
-                            b1.Property<int>("CampgroundId")
-                                .HasColumnType("integer");
-
-                            b1.Property<double[]>("Coordinates")
-                                .IsRequired()
-                                .HasColumnType("double precision[]");
-
-                            b1.Property<string>("Type")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.HasKey("CampgroundId");
-
-                            b1.ToTable("Campgrounds");
-
-                            b1.WithOwner()
-                                .HasForeignKey("CampgroundId");
-                        });
-
                     b.Navigation("Author");
-
-                    b.Navigation("Geometry")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("BACKEND.Models.Image", b =>

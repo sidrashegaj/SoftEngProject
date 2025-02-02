@@ -1,6 +1,8 @@
 import { Review } from "./review.model";
 
 export interface Campground {
+  longitude: any;
+  latitude: any;
   name: any;
   campgroundId: number;
   title: string;

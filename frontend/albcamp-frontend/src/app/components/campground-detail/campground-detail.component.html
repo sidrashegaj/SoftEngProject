@@ -1,39 +1,32 @@
-<p>campground-detail works!</p>
 <div class="container">
     <div class="row">
         <div class="col-md-6 mb-3">
             <!-- Carousel for campground images -->
-            <div *ngIf="campground?.images && campground.images.length > 0">
+            <div *ngIf="campground?.images && campground.images.length > 0; else noImages">
                 <div id="campgroundCarousel" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-
-                        <div class="carousel-item active">
-                            <img *ngIf="campground.images[0]?.url" [src]="campground.images[0]?.url"
-                                class="d-block w-100" alt="Campground Image">
-                        </div>
-
-                        <div *ngFor="let img of campground.images.slice(1)" class="carousel-item">
-                            <img *ngIf="img?.url" [src]="img.url" class="d-block w-100" alt="Campground Image">
-                        </div>
+                  <div class="carousel-inner">
+                    <div class="carousel-item" *ngFor="let img of campground.images; let i = index" [class.active]="i === 0">
+                      <img [src]="img?.url" class="d-block w-100" alt="Campground Image">
                     </div>
-
-                    <!-- Carousel Controls -->
-                    <a class="carousel-control-prev" href="#campgroundCarousel" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#campgroundCarousel" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
+                  </div>
+              
+                  <!-- Carousel Controls -->
+                  <a class="carousel-control-prev" href="#campgroundCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="carousel-control-next" href="#campgroundCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                  </a>
                 </div>
-            </div>
-
-            <!-- when no images -->
-            <div *ngIf="!campground.images || campground.images.length === 0">
-                <p>No images available for this campground.</p>
+              </div>
+              
+              <!-- No Images Template -->
+              <ng-template #noImages>
                 <img [src]="randomImageUrl" class="d-block w-100" alt="Random Campground Image">
-            </div>
+              </ng-template>
+              
 
             <!-- Campground Info Card -->
             <div class="card mb-3">

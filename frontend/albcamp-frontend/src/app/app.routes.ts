@@ -7,7 +7,7 @@ import { CampgroundDetailComponent } from './components/campground-detail/campgr
 import { AddCampgroundComponent } from './components/add-campground/add-campground.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { EditCampgroundComponent } from './components/edit-campground/edit-campground.component';
-import { IndexComponent } from './index/index.component';
+import { IndexComponent } from './components/index/index.component';
 
 export const routes: Routes = [
   { path: '', component: IndexComponent, pathMatch: 'full' }, // Default route for index

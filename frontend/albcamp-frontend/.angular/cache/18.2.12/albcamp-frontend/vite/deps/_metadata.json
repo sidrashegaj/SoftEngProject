@@ -1,67 +1,67 @@
 {
-  "hash": "5dcfdfc1",
-  "configHash": "e8d26532",
-  "lockfileHash": "fd669ad8",
-  "browserHash": "b334167c",
+  "hash": "386701e9",
+  "configHash": "5ac6f3a1",
+  "lockfileHash": "1eb69861",
+  "browserHash": "98dae2d7",
   "optimized": {
     "@angular/common": {
       "src": "../../../../../../node_modules/@angular/common/fesm2022/common.mjs",
       "file": "@angular_common.js",
-      "fileHash": "7c0f26a6",
+      "fileHash": "ab3f1891",
       "needsInterop": false
     },
     "@angular/common/http": {
       "src": "../../../../../../node_modules/@angular/common/fesm2022/http.mjs",
       "file": "@angular_common_http.js",
-      "fileHash": "701200ea",
+      "fileHash": "943e1314",
       "needsInterop": false
     },
     "@angular/core": {
       "src": "../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
       "file": "@angular_core.js",
-      "fileHash": "2c667ccd",
+      "fileHash": "017c432c",
       "needsInterop": false
     },
     "@angular/forms": {
       "src": "../../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
       "file": "@angular_forms.js",
-      "fileHash": "bd7f068e",
+      "fileHash": "0b7cf75f",
       "needsInterop": false
     },
     "@angular/platform-browser": {
       "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
       "file": "@angular_platform-browser.js",
-      "fileHash": "903ce0a4",
+      "fileHash": "29ca5e24",
       "needsInterop": false
     },
     "@angular/router": {
       "src": "../../../../../../node_modules/@angular/router/fesm2022/router.mjs",
       "file": "@angular_router.js",
-      "fileHash": "50e441db",
+      "fileHash": "fdb8191b",
       "needsInterop": false
     },
     "jwt-decode": {
       "src": "../../../../../../node_modules/jwt-decode/build/esm/index.js",
       "file": "jwt-decode.js",
-      "fileHash": "da6f7351",
+      "fileHash": "1645179e",
       "needsInterop": false
     },
-    "mapbox-gl": {
-      "src": "../../../../../../node_modules/mapbox-gl/dist/mapbox-gl.js",
-      "file": "mapbox-gl.js",
-      "fileHash": "74646929",
+    "leaflet": {
+      "src": "../../../../../../node_modules/leaflet/dist/leaflet-src.js",
+      "file": "leaflet.js",
+      "fileHash": "94d2cc08",
       "needsInterop": true
     },
     "rxjs": {
       "src": "../../../../../../node_modules/rxjs/dist/esm5/index.js",
       "file": "rxjs.js",
-      "fileHash": "208cbfc1",
+      "fileHash": "ab8352bb",
       "needsInterop": false
     },
     "rxjs/operators": {
       "src": "../../../../../../node_modules/rxjs/dist/esm5/operators/index.js",
       "file": "rxjs_operators.js",
-      "fileHash": "3be3c392",
+      "fileHash": "105006ed",
       "needsInterop": false
     }
   },
