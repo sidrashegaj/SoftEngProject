@@ -1,50 +1,68 @@
-<div class="container d-flex justify-content-center align-items-center mt-5">
-  <div class="row">
-    <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
-      <div class="card shadow">
-        <img
-          src="https://images.unsplash.com/photo-1571863533956-01c88e79957e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80"
-          alt="Nature Image" class="card-img-top" />
-        <div class="card-body">
-          <h5 class="card-title text-center">Register</h5>
-           <form (ngSubmit)="onSubmit()" #registerForm="ngForm"> 
+<div class="video-bg-container">
+  <!-- Video Background -->
+  <video autoplay muted loop playsinline preload="auto" class="video-bg">
+    <source src="assets/hiking.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  <div class="overlay"></div>
 
-            <div class="mb-3">
-              <label class="form-label" for="username">Username</label>
-              <input class="form-control" type="text" id="username" name="username" required autofocus [(ngModel)]="username" #usernameInput="ngModel">
-              <div *ngIf="usernameInput.invalid && usernameInput.touched" class="text-danger">
-                Username is required
-              </div>
-              <div *ngIf="usernameInput.valid" class="valid-feedback">
-                Looks good!
-              </div>
+  <!-- Register Form -->
+  <div class="register-section d-flex justify-content-center align-items-center">
+    <div class="card shadow-lg rounded-4" style="max-width: 400px; background-color: rgba(255, 255, 255, 0.95);">
+      <div class="card-body p-4">
+        <h3 class="text-center mb-4 text-dark">Create an Account</h3>
+        <p class="text-center text-muted mb-4">Join AlbCamp and explore the world of campgrounds!</p>
+        <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+          <div class="mb-3">
+            <label for="username" class="form-label text-dark">Username</label>
+            <input
+              class="form-control rounded-pill"
+              type="text"
+              id="username"
+              name="username"
+              required
+              [(ngModel)]="username"
+              #usernameInput="ngModel"
+              placeholder="Enter your username"
+            />
+            <div *ngIf="usernameInput.invalid && usernameInput.touched" class="text-danger mt-1">
+              Username is required
             </div>
-
-            <div class="mb-3">
-              <label class="form-label" for="email">Email</label>
-              <input class="form-control" type="email" id="email" name="email" required [(ngModel)]="email" #emailInput="ngModel">
-              <div *ngIf="emailInput.invalid && emailInput.touched" class="text-danger">
-                Please enter a valid email address
-              </div>
-              <div *ngIf="emailInput.valid" class="valid-feedback">
-                Looks good!
-              </div>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label text-dark">Email</label>
+            <input
+              class="form-control rounded-pill"
+              type="email"
+              id="email"
+              name="email"
+              required
+              [(ngModel)]="email"
+              #emailInput="ngModel"
+              placeholder="Enter your email"
+            />
+            <div *ngIf="emailInput.invalid && emailInput.touched" class="text-danger mt-1">
+              Please enter a valid email address
             </div>
-
-            <div class="mb-3">
-              <label class="form-label" for="password">Password</label>
-              <input class="form-control" type="password" id="password" name="password" required [(ngModel)]="password" #passwordInput="ngModel">
-              <div *ngIf="passwordInput.invalid && passwordInput.touched" class="text-danger">
-                Password is required
-              </div>
-              <div *ngIf="passwordInput.valid" class="valid-feedback">
-                Looks good!
-              </div>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label text-dark">Password</label>
+            <input
+              class="form-control rounded-pill"
+              type="password"
+              id="password"
+              name="password"
+              required
+              [(ngModel)]="password"
+              #passwordInput="ngModel"
+              placeholder="Enter your password"
+            />
+            <div *ngIf="passwordInput.invalid && passwordInput.touched" class="text-danger mt-1">
+              Password is required
             </div>
-
-            <button class="btn btn-success btn-block" type="submit" >Register</button> 
+          </div>
+          <button type="submit" class="btn btn-custom-primary w-100 rounded-pill">Register</button>
         </form>
-        </div>
       </div>
     </div>
   </div>

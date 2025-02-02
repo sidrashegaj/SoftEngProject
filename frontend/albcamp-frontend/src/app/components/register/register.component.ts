@@ -9,6 +9,7 @@ import { FlashMessageService } from '../../services/flash-message.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css'] 
 })
 export class RegisterComponent {
   username: string = '';

@@ -1,0 +1,80 @@
+/* Full Page Video Background Container */
+.video-bg-container {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+    overflow: hidden; /* Prevents video from overflowing */
+  }
+  
+  /* Video Element */
+  .video-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the video covers the entire background */
+    z-index: -2; /* Sends video behind all other elements */
+  }
+  
+  /* Optional: Overlay for Contrast */
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Dark overlay for better contrast */
+    z-index: -1; /* Ensures it's above the video but below the content */
+  }
+  
+  /* Register Section Styling */
+  .register-section {
+    position: absolute;
+    top: 50%; /* Centers the register form vertically */
+    left: 50%; /* Centers the register form horizontally */
+    transform: translate(-50%, -50%); /* Ensures perfect centering */
+    z-index: 1; /* Ensures the register form stays above the video and overlay */
+  }
+  
+  /* Card Styling */
+  .card {
+    background-color: rgba(255, 255, 255, 0.95); /* Semi-transparent white */
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    border-radius: 20px;
+  }
+  
+  /* Button Styling */
+  .btn-custom-primary {
+    background-color: #00bfa5;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-custom-primary:hover {
+    background-color: #00997c;
+  }
+  
+  /* Form Elements */
+  .form-control {
+    border-radius: 50px;
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    transition: border-color 0.3s ease;
+  }
+  
+  .form-control:focus {
+    border-color: #00bfa5;
+    outline: none;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .card {
+      max-width: 90%;
+    }
+  }
+  

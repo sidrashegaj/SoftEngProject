@@ -24,4 +24,8 @@ export class FlashMessageComponent {
   onLoginClick(): void {
     this.router.navigate(['/login']); 
   }
+dismissMessage() {
+  this.message = null; 
+}
+
 }
