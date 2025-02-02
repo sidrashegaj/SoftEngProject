@@ -1,18 +1,19 @@
-using BACKEND.Data; // Your DbContext
-using BACKEND.Services; // Your custom services
+using BACKEND.Data;
+using BACKEND.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
-        // Configure the JSON serializer to handle object cycles
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-        options.JsonSerializerOptions.WriteIndented = true; // Optional for readability
+        options.JsonSerializerOptions.WriteIndented = true;
     });
 
 builder.Services.AddEndpointsApiExplorer();
@@ -20,29 +21,33 @@ builder.Services.AddSwaggerGen();
 
 // Add DbContext for PostgreSQL
 builder.Services.AddDbContext<AlbCampDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Configure JWT Authentication
+builder.Services.Configure<JWTSettings>(builder.Configuration.GetSection("JwtSettings"));
+builder.Services.AddAuthentication(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["JwtSettings:Issuer"] ?? string.Empty, // Default to empty string if null
+        ValidAudience = builder.Configuration["JwtSettings:Audience"] ?? string.Empty, // Default to empty string if null
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"] ?? string.Empty)) // Default to empty string if null
+    };
 });
 
-// Configure CloudinarySettings
+// Register services
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
-
-// Register PhotoService
 builder.Services.AddScoped<PhotoService>();
-
-// Configure JWT Settings
-builder.Services.Configure<JWTSettings>(builder.Configuration.GetSection("JwtSettings"));
-
-// Add HttpClient factory
-builder.Services.AddHttpClient();
-
-// Add GeocodingService with Mapbox configuration
-builder.Services.AddScoped<GeocodingService>(provider =>
-    new GeocodingService(
-        provider.GetRequiredService<IHttpClientFactory>(),
-        builder.Configuration["Mapbox:AccessToken"] // Ensure this key exists in appsettings.json
-    )
-);
+builder.Services.AddHttpClient(); // Keep HttpClient for other potential needs
 
 // Add CORS policy
 builder.Services.AddCors(options =>
@@ -55,22 +60,22 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Apply migrations and create the database at startup
+// Apply migrations and initialize database
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AlbCampDbContext>();
     context.Database.Migrate();
     try
     {
-        DbInitializer.Initialize(context); // Call the seeder
+        DbInitializer.Initialize(context);
     }
     catch (Exception ex)
     {
-        Console.WriteLine($"An error occurred seeding the database: {ex.Message}");
+        Console.WriteLine($"Database seeding error: {ex.Message}");
     }
 }
 
-// Configure the HTTP request pipeline
+// Configure middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -79,8 +84,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
-
+app.UseAuthentication(); // Authentication middleware
 app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();

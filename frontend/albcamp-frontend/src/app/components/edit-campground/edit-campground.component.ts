@@ -21,14 +21,16 @@ export class EditCampgroundComponent implements OnInit {
     price: 0,
     description: '',
     images: [],
-    name: undefined,
+    name: '',
+    longitude: 0, // Added missing properties
+    latitude: 0,  // Added missing properties
     campgroundId: 0,
     author: {
       _id: 0,
       username: '',
     },
     geometry: {
-      coordinates: [],
+      coordinates: [0, 0],
     },
   };
   deleteImages: string[] = [];
@@ -45,53 +47,61 @@ export class EditCampgroundComponent implements OnInit {
     this.campgroundId = +this.route.snapshot.paramMap.get('id')!;
     this.loadCampgroundDetails();
   }
-
   loadCampgroundDetails(): void {
     this.campgroundService.getCampground(this.campgroundId).subscribe((campground) => {
       this.campground = campground;
+  
+      // Ensure `images` is an array
+      if (!Array.isArray(this.campground.images)) {
+        this.campground.images = [];
+      }
+  
       this.deleteImages = this.campground.images.map((img) => img.filename);
     });
   }
-
+  
   onImageSelected(event: any): void {
-    this.selectedImages = event.target.files;
+    this.selectedImages = Array.from(event.target.files);
   }
-
   onSubmit(): void {
     const formData = new FormData();
   
-    formData.append('name', this.campground.title); 
+    // Append basic details
+    formData.append('name', this.campground.name);
     formData.append('location', this.campground.location);
     formData.append('price', this.campground.price.toString());
     formData.append('description', this.campground.description);
+    formData.append('latitude', this.campground.latitude.toString());
+    formData.append('longitude', this.campground.longitude.toString());
   
-    for (let file of this.selectedImages) {
-      formData.append('images', file); // Add new images
+    // Append new images
+    for (const file of this.selectedImages) {
+      formData.append('images', file);
     }
   
-    this.campground.images.forEach((img) => {
+    // Append existing images to keep
+    for (const img of this.campground.images) {
       if (!this.deleteImages.includes(img.filename)) {
-        formData.append('existingImages[]', img.filename); 
+        formData.append('existingImages[]', img.filename);
       }
-    });
+    }
   
-    if (this.deleteImages.length > 0) {
-      for (let filename of this.deleteImages) {
-        formData.append('deleteImages[]', filename); //send file data to delete
-      }
-    } else {
-      formData.append('deleteImages[]', ''); 
+    // Append images to delete
+    for (const filename of this.deleteImages) {
+      formData.append('deleteImages[]', filename);
     }
   
     this.campgroundService.updateCampground(this.campgroundId, formData).subscribe({
       next: () => {
         this.flashMessageService.showMessage('Campground updated successfully!', 5000);
-        this.router.navigate(['/campgrounds']); 
+        this.router.navigate(['/campgrounds']);
       },
       error: (err) => {
         console.error('Error updating campground', err);
-        this.flashMessageService.showMessage('Cannot update other users campgrounds!', 5000);
+        this.flashMessageService.showMessage('Failed to update the campground.', 5000);
       },
-    });
-  }
+    });
+  }
+  
+  
 }

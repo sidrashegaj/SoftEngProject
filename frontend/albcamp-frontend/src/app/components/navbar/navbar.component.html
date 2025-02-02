@@ -1,37 +1,51 @@
-<nav class="navbar navbar-expand-lg navbar-light ">
-  <a class="navbar-brand mb-0 h1 nav-link" (click)="onLogo()">AlbCamp</a>
+<nav class="navbar navbar-expand-lg py-3">
+  <div class="container">
+    <!-- Brand Logo -->
+    <a class="navbar-brand fw-bold text-light" (click)="onLogo()">Alb<span class="text-highlight">Camp</span></a>
 
-  <!-- hamburger   -->
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
-    aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+    <!-- Hamburger Menu -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" (click)="onAll()">All</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" (click)="onNewCampgroundClick()">New Campground</a>
-      </li>
-      <li class="nav-item" *ngIf="authService.isAuthenticated()">
-        <a class="nav-link" (click)="onLogout()">Logout</a>
-      </li>
-    </ul>
+    <!-- Navbar Links -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <!-- Left Aligned Links -->
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" (click)="onAll()">All Campgrounds</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="onNewCampgroundClick()">New Campground</a>
+        </li>
+      </ul>
 
-    <!--  right part-->
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item" *ngIf="!authService.isAuthenticated()">
-        <a class="nav-link" (click)="onLoginClick()">Login</a>
-      </li>
-      <li class="nav-item" *ngIf="!authService.isAuthenticated()">
-        <a class="nav-link" (click)="onRegisterClick()">Register</a>
-      </li>
-      <li class="nav-item" *ngIf="authService.isAuthenticated()">
-        <a class="nav-link">Welcome {{ username }}</a>
-      </li>
-
-    </ul>
+      <!-- Right Aligned Links -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item" *ngIf="!authService.isAuthenticated()">
+          <a class="btn btn-outline me-2" (click)="onLoginClick()">Login</a>
+        </li>
+        <li class="nav-item" *ngIf="!authService.isAuthenticated()">
+          <a class="btn btn-outline" (click)="onRegisterClick()">Register</a>
+        </li>
+        <li class="nav-item" *ngIf="authService.isAuthenticated()">
+          <div id="user-profile" class="d-flex align-items-center">
+            <a class="nav-link">
+              <i class="bi bi-person-circle text-light fs-4 me-2"></i>
+              Welcome, {{ username }}
+            </a>
+            <a class="btn btn-outline ms-2" (click)="onLogout()">Logout</a>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>
