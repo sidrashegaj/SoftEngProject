@@ -1,30 +1,25 @@
 <div class="hero-section">
-    <!-- Video Background -->
     <video autoplay muted loop playsinline preload="auto" class="bg-video">
       <source src="assets/hiking.mp4" type="video/mp4" />
       Your browser does not support the video tag.
     </video>
   
-    <!-- Content -->
     <div class="content">
       <h1 class="animate-title">Welcome to AlbCamp</h1>
       <p class="lead mt-3">
         Discover breathtaking campgrounds near you and create unforgettable memories.
       </p>
   
-      <!-- "Find Nearby Campgrounds" Button -->
       <button class="btn btn-custom-primary mt-4 px-4 py-2" (click)="findNearbyCampgrounds()">
         Find Campgrounds Near Me
       </button>
   
-      <!-- "View All Campgrounds" Button -->
       <button class="btn btn-secondary mt-4 px-4 py-2" (click)="navigateToAllCampgrounds()">
         View All Campgrounds
       </button>
     </div>
   </div>
   
-  <!-- Display Nearby Campgrounds -->
   <section
     class="container trending mt-5"
     *ngIf="isNearbySearch && campgrounds.length > 0"
@@ -33,7 +28,6 @@
       <h2 class="mb-4">Nearby Campgrounds</h2>
     </div>
   
-    <!-- Campgrounds Cards -->
     <div class="row justify-content-center">
       <div
         *ngFor="let campground of campgrounds"
@@ -64,7 +58,6 @@
       </div>
     </div>
   
-    <!-- No Results -->
     <div *ngIf="noResultsFound" class="alert alert-danger mt-5">
       <strong>No campgrounds found near you.</strong> Try expanding your search radius or exploring other locations.
     </div>

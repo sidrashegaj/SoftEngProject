@@ -9,7 +9,9 @@ import { FlashMessageService } from '../../services/flash-message.service';
   selector: 'app-login',
   standalone: true,
   templateUrl: './login.component.html',
-  imports: [FormsModule, CommonModule]
+  imports: [FormsModule, CommonModule],
+  styleUrls: ['./login.component.css'], // Ensure the correct file path is provided
+
 })
 export class LoginComponent {
   username = '';

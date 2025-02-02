@@ -1,27 +1,45 @@
-<div class="container mt-3">
-  <h1 class="text-center mb-4">Campground List</h1>
-  <div class="row">
-    <div class="col-md-6" *ngFor="let campground of campgrounds">
-      <div class="card mb-3">
-        <img
-          [src]="campground.images[0]?.url || getRandomImageUrl()"
-          class="card-img-top"
-          alt="Campground Image"
-        />
-        <div class="card-body">
-          <h5 class="card-title">{{ campground.name }}</h5>
-          <p class="card-text">{{ campground.description }}</p>
-          <p class="text-muted">{{ campground.location }}</p>
-          <button
-            class="btn btn-primary"
-            [routerLink]="['/campgrounds', campground.campgroundId]"
-          >
-            View Details
-          </button>
+<div class="campground-hero">
+  <!-- Map -->
+  <div class="map-container">
+    <div id="hero-map" class="hero-map"></div>
+  </div>
+
+  <!-- Circular Text -->
+  <div class="hero-circle">
+    <div id="circle-text" class="circle-text" (click)="scrollToCards()">
+      <span>Nature &#9675; Adventure &#9675; Memories</span>
+    </div>
+  </div>
+</div>
+
+<div id="campground-cards" class="campground-page">
+  <div class="container">
+    <h1 class="text-center mb-5 display-4">Discover Your Next Adventure</h1>
+
+    <!-- Campground Cards -->
+    <div class="row gy-4">
+      <div class="col-md-6 col-lg-4" *ngFor="let campground of campgrounds">
+        <div class="card campground-card">
+          <img
+            [src]="campground.images[0]?.url || getRandomImageUrl()"
+            class="card-img-top"
+            alt="Campground Image"
+          />
+          <div class="card-body text-center">
+            <h5 class="card-title">{{ campground.name }}</h5>
+            <p class="card-text text-muted">{{ campground.description }}</p>
+            <p class="text-secondary">
+              <i class="bi bi-geo-alt"></i> {{ campground.location }}
+            </p>
+            <button
+              class="btn btn-custom-primary"
+              [routerLink]="['/campgrounds', campground.campgroundId]"
+            >
+              View Details
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-
-  <div id="map" style="height: 400px; margin-top: 20px;"></div>
 </div>

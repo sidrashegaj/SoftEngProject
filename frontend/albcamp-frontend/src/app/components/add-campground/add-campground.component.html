@@ -1,75 +1,133 @@
-<div class="container mt-5">
-  <h1>Add New Campground</h1>
+<div class="container form-wrapper mt-5">
+  <div class="form-header text-center mb-4">
+    <h1>Add New Campground</h1>
+    <p class="text-muted">Fill out the details below to create a stunning new campground listing.</p>
+  </div>
+
   <form [formGroup]="campgroundForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
     <!-- Title -->
-    <div class="mb-3">
-      <label for="name" class="form-label">Title</label>
-      <input type="text" id="name" class="form-control" formControlName="name" required />
-      <div *ngIf="campgroundForm.get('name')?.invalid && campgroundForm.get('title')?.touched" class="text-danger">
+    <div class="mb-4">
+      <label for="name" class="form-label">Campground Title</label>
+      <input
+        type="text"
+        id="name"
+        class="form-control shadow"
+        formControlName="name"
+        placeholder="Enter a captivating title"
+        required
+      />
+      <div *ngIf="campgroundForm.get('name')?.invalid && campgroundForm.get('name')?.touched" class="form-error">
         Title is required.
       </div>
     </div>
 
     <!-- Location -->
-    <div class="mb-3">
+    <div class="mb-4">
       <label for="location" class="form-label">Location</label>
-      <input type="text" id="location" class="form-control" formControlName="location" required />
-      <div *ngIf="campgroundForm.get('location')?.invalid && campgroundForm.get('location')?.touched" class="text-danger">
+      <input
+        type="text"
+        id="location"
+        class="form-control shadow"
+        formControlName="location"
+        placeholder="Enter the location (e.g., City, State)"
+        required
+      />
+      <div *ngIf="campgroundForm.get('location')?.invalid && campgroundForm.get('location')?.touched" class="form-error">
         Location is required.
       </div>
     </div>
 
-    <!-- Latitude -->
-<div class="mb-3">
-  <label for="latitude" class="form-label">Latitude</label>
-  <input type="number" id="latitude" class="form-control" formControlName="latitude" required />
-  <div *ngIf="campgroundForm.get('latitude')?.invalid && campgroundForm.get('latitude')?.touched" class="text-danger">
-    Latitude is required.
-  </div>
-</div>
-
-<!-- Longitude -->
-<div class="mb-3">
-  <label for="longitude" class="form-label">Longitude</label>
-  <input type="number" id="longitude" class="form-control" formControlName="longitude" required />
-  <div *ngIf="campgroundForm.get('longitude')?.invalid && campgroundForm.get('longitude')?.touched" class="text-danger">
-    Longitude is required.
-  </div>
-</div>
-    <!-- Price -->
-    <div class="mb-3">
-      <label for="price" class="form-label">Campground Price</label>
-      <div class="input-group">
-        <span class="input-group-text" id="price-label">$</span>
-        <input type="number" id="price" class="form-control" formControlName="price" placeholder="0.00" required />
+    <!-- Latitude & Longitude -->
+    <div class="row">
+      <div class="col-md-6 mb-4">
+        <label for="latitude" class="form-label">Latitude</label>
+        <input
+          type="number"
+          id="latitude"
+          class="form-control shadow"
+          formControlName="latitude"
+          placeholder="41.3275"
+          required
+        />
+        <div *ngIf="campgroundForm.get('latitude')?.invalid && campgroundForm.get('latitude')?.touched" class="form-error">
+          Latitude is required.
+        </div>
       </div>
-      <div *ngIf="campgroundForm.get('price')?.invalid && campgroundForm.get('price')?.touched" class="text-danger">
-        Price is required and should be greater than 0.
+      <div class="col-md-6 mb-4">
+        <label for="longitude" class="form-label">Longitude</label>
+        <input
+          type="number"
+          id="longitude"
+          class="form-control shadow"
+          formControlName="longitude"
+          placeholder="19.8189"
+          required
+        />
+        <div *ngIf="campgroundForm.get('longitude')?.invalid && campgroundForm.get('longitude')?.touched" class="form-error">
+          Longitude is required.
+        </div>
+      </div>
+    </div>
+
+    <!-- Price -->
+    <div class="mb-4">
+      <label for="price" class="form-label">Price per Night</label>
+      <div class="input-group shadow">
+        <span class="input-group-text">$</span>
+        <input
+          type="number"
+          id="price"
+          class="form-control"
+          formControlName="price"
+          placeholder="Enter price"
+          required
+        />
+      </div>
+      <div *ngIf="campgroundForm.get('price')?.invalid && campgroundForm.get('price')?.touched" class="form-error">
+        Price must be greater than 0.
       </div>
     </div>
 
     <!-- Description -->
-    <div class="mb-3">
+    <div class="mb-4">
       <label for="description" class="form-label">Description</label>
-      <textarea id="description" class="form-control" formControlName="description" rows="3" required></textarea>
-      <div *ngIf="campgroundForm.get('description')?.invalid && campgroundForm.get('description')?.touched" class="text-danger">
+      <textarea
+        id="description"
+        class="form-control shadow"
+        formControlName="description"
+        rows="3"
+        placeholder="Provide a detailed description"
+        required
+      ></textarea>
+      <div *ngIf="campgroundForm.get('description')?.invalid && campgroundForm.get('description')?.touched" class="form-error">
         Description is required.
       </div>
     </div>
 
-    <!-- Images -->
-    <div class="mb-3">
-      <label class="form-label" for="images">Upload Images</label>
-      <input type="file" id="images" class="form-control" (change)="onFileSelected($event)" multiple />
+    <!-- Upload Images -->
+    <div class="mb-4">
+      <label for="images" class="form-label">Upload Images</label>
+      <input
+        type="file"
+        id="images"
+        class="form-control shadow"
+        (change)="onFileSelected($event)"
+        multiple
+      />
     </div>
 
     <!-- Submit Button -->
-    <div class="mb-3">
-      <button *ngIf="canAddOrDelete()" class="btn btn-primary" type="submit">Add Campground</button>
+    <div class="text-center mt-5">
+      <button *ngIf="canAddOrDelete()" class="btn btn-success btn-lg px-5 py-2 shadow" type="submit">
+        <i class="fas fa-plus-circle"></i> Add Campground
+      </button>
     </div>
   </form>
 
-  <div class="mb-3">
-    <button class="btn btn-secondary" [routerLink]="['/campgrounds']">Back to All Campgrounds</button>
+  <div class="text-center mt-4">
+    <button class="btn btn-secondary btn-lg px-5 py-2 shadow" [routerLink]="['/campgrounds']">
+      Back to All Campgrounds
+    </button>
   </div>
 </div>
+<br>

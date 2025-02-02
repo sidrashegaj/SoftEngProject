@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { Campground } from '../../models/campground.model';
 import { CampgroundService } from '../../services/campground.service';
 import * as L from 'leaflet';
+import CircleType from 'circletype';
 
 @Component({
   selector: 'app-campground-list',
@@ -33,24 +34,29 @@ export class CampgroundListComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.loadCampgrounds();
   }
-
   ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      this.initializeMap();
+    // Initialize Map
+    this.map = L.map('hero-map').setView([41.3275, 19.8189], 7); // Center on Albania
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution:
+        'Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(this.map);
+  
+    // Add Campground Markers
+    this.addMarkersToMap(this.campgrounds);
+  
+    // Setup Circular Text
+    const circleText = document.getElementById('circle-text');
+    if (circleText) {
+      new CircleType(circleText).radius(150);
+      circleText.addEventListener('click', () => {
+        const section = document.getElementById('campground-cards');
+        section?.scrollIntoView({ behavior: 'smooth' });
+      });
     }
   }
-
-  initializeMap(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      this.map = L.map('map').setView([41.3275, 19.8189], 7); // Centered on Albania
-
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution:
-          'Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }).addTo(this.map);
-    }
-  }
-
+  
+  
   loadCampgrounds(): void {
     this.campgroundService.getCampgrounds().subscribe({
       next: (response: any) => {
@@ -96,5 +102,21 @@ export class CampgroundListComponent implements OnInit, AfterViewInit {
 
   getRandomImageUrl(): string {
     return `https://picsum.photos/400?random=${Math.random()}`;
+  }
+
+  setupCircleText(): void {
+    const circleText = document.getElementById('circle-text');
+    if (circleText) {
+      new CircleType(circleText).radius(150);
+      circleText.addEventListener('click', this.scrollToCards.bind(this));
+    }
+  }
+  
+
+  scrollToCards(): void {
+    const section = document.getElementById('campground-cards');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 }
