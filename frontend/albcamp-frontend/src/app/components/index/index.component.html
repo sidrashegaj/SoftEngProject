@@ -19,47 +19,50 @@
       </button>
     </div>
   </div>
-  
+
   <section
-    class="container trending mt-5"
-    *ngIf="isNearbySearch && campgrounds.length > 0"
-  >
-    <div class="description-text">
-      <h2 class="mb-4">Nearby Campgrounds</h2>
-    </div>
-  
-    <div class="row justify-content-center">
-      <div
-        *ngFor="let campground of campgrounds"
-        class="col-md-4 mb-4 d-flex align-items-stretch"
-      >
-        <div class="card shadow-sm">
-          <div
-            class="card-img-top"
-            [ngStyle]="{
-              'background-image': 'url(' + (campground.images?.[0]?.url || randomImageUrl) + ')',
-              'background-size': 'cover',
-              'background-position': 'center'
-            }"
-          ></div>
-          <div class="card-body">
-            <h5 class="card-title">{{ campground.name }}</h5>
-            <h6 class="card-subtitle mb-3 text-muted">{{ campground.location }}</h6>
-            <p class="card-text">{{ campground.description }}</p>
-            <p class="mb-3"><strong>Price:</strong> ${{ campground.price }}</p>
-            <button
-              class="btn btn-primary w-100"
-              (click)="navigateToCampgrounds(campground.campgroundId)"
-            >
-              View Details
-            </button>
+  id="nearby-campgrounds"
+  class="container trending mt-5"
+  *ngIf="campgrounds.length > 0"
+>
+  <div class="description-text">
+    <h2 class="mb-4">Nearby Campgrounds</h2>
+  </div>
+
+  <div id="nearby-campgrounds" class="campgrounds-container">
+    <div class="campgrounds-container"
+      *ngFor="let campground of campgrounds"
+      class="card shadow-sm"
+    >
+      <div class="card shadow-sm">
+        <div class="card-img-top">
+            <img
+              [src]="campground.images.length > 0 ? campground.images[0].url : getRandomImageUrl()"
+              class="img-fluid w-100"
+              alt="{{ campground.name }}"
+            />
           </div>
+          
+          
+        <div class="card-body">
+          <h5 class="card-title">{{ campground.name }}</h5>
+          <h6 class="card-subtitle mb-3 text-muted">{{ campground.location }}</h6>
+          <p class="card-text">{{ campground.description }}</p>
+          <p class="mb-3"><strong>Price:</strong> ${{ campground.price }}</p>
+          <button
+            class="btn btn-primary w-100"
+            (click)="navigateToCampgrounds(campground.campgroundId)"
+          >
+            View Details
+          </button>
         </div>
       </div>
     </div>
+  </div>
   
-    <div *ngIf="noResultsFound" class="alert alert-danger mt-5">
-      <strong>No campgrounds found near you.</strong> Try expanding your search radius or exploring other locations.
-    </div>
-  </section>
+
+  <div *ngIf="noResultsFound" class="alert alert-danger mt-5">
+    <strong>No campgrounds found near you.</strong> Try expanding your search radius or exploring other locations.
+  </div>
   
+</section>

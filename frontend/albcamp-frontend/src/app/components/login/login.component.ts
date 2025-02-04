@@ -10,7 +10,7 @@ import { FlashMessageService } from '../../services/flash-message.service';
   standalone: true,
   templateUrl: './login.component.html',
   imports: [FormsModule, CommonModule],
-  styleUrls: ['./login.component.css'], // Ensure the correct file path is provided
+  styleUrls: ['./login.component.css'], 
 
 })
 export class LoginComponent {

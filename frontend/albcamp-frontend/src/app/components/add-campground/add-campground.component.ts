@@ -57,32 +57,31 @@ export class AddCampgroundComponent implements OnInit {
       }
     }
   }
-
   onSubmit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const formData = new FormData();
-      formData.append('name', this.campgroundForm.value.name);
-      formData.append('location', this.campgroundForm.value.location);
-      formData.append('latitude', this.campgroundForm.value.latitude.toString());
-      formData.append('longitude', this.campgroundForm.value.longitude.toString());
-      formData.append('price', this.campgroundForm.value.price.toString());
-      formData.append('description', this.campgroundForm.value.description);
-
-      this.selectedFiles.forEach((file) => {
-        formData.append('images', file, file.name);
-      });
-
-      this.campgroundService.addCampground(formData).subscribe({
-        next: (res) => {
+    const formData = new FormData();
+    formData.append('name', this.campgroundForm.value.name);
+    formData.append('location', this.campgroundForm.value.location);
+    formData.append('latitude', this.campgroundForm.value.latitude.toString());
+    formData.append('longitude', this.campgroundForm.value.longitude.toString());
+    formData.append('price', this.campgroundForm.value.price.toString());
+    formData.append('description', this.campgroundForm.value.description);
+ 
+    this.selectedFiles.forEach((file) => {
+       formData.append('images', file, file.name);
+    });
+ 
+    this.campgroundService.addCampground(formData).subscribe({
+       next: (res) => {
           this.flashMessageService.showMessage('Campground added successfully!', 5000);
           this.newCampgroundAdded.emit(res);
           this.router.navigate([`/campgrounds/${res.campgroundId}`]);
-        },
-        error: (err) => {
+       },
+       error: (err) => {
           console.error('Error adding campground', err);
           this.flashMessageService.showMessage('Failed to add campground!', 5000);
-        },
-      });
-    }
-  }
+       },
+    });
+ }
+ 
+  
 }

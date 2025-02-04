@@ -30,13 +30,13 @@ export class CampgroundService {
     );
   }
   
-  searchNearbyCampgrounds(lat: number, lng: number, radiusInKm: number = 50): Observable<Campground[]> {
-    const url = `${this.apiUrl}/nearby?userLat=${lat}&userLng=${lng}&radiusInKm=${radiusInKm}`;
-    return this.http.get<Campground[]>(url).pipe(
-      catchError(this.handleError)
-    );
-  }
-  
+ searchNearbyCampgrounds(lat: number, lng: number, radiusInKm: number = 50): Observable<Campground[]> {
+  const url = `${this.apiUrl}/nearby?userLat=${lat}&userLng=${lng}&radiusInKm=${radiusInKm}`;
+  return this.http.get<Campground[]>(url).pipe(
+    catchError(this.handleError)
+  );
+}
+
   updateCampground(id: number, formData: FormData): Observable<Campground> {
     const headers = this.createAuthHeaders(); // Add authorization headers
     return this.http.put<Campground>(`${this.apiUrl}/${id}`, formData, { headers }).pipe(

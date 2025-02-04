@@ -13,7 +13,7 @@ export class ReviewService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   private getAuthHeaders(): HttpHeaders {
-    const token = this.authService.getToken(); // Get token from AuthService
+    const token = this.authService.getToken(); 
     if (!token) {
       throw new Error('User is not authenticated. Token is missing.');
     }
@@ -30,7 +30,7 @@ export class ReviewService {
 
   addReview(campgroundId: number, review: Review): Observable<Review> {
     return this.http.post<Review>(`${this.apiUrl}/campground/${campgroundId}`, review, {
-      headers: this.getAuthHeaders(), // Ensure headers are included
+      headers: this.getAuthHeaders(), 
     });
   }
 

@@ -5,12 +5,13 @@ import {
   PLATFORM_ID,
   AfterViewInit,
 } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Campground } from '../../models/campground.model';
 import { CampgroundService } from '../../services/campground.service';
-import * as L from 'leaflet';
+import { MapboxService } from '../../services/mapbox.service';
+import mapboxgl from 'mapbox-gl';
 import CircleType from 'circletype';
 
 @Component({
@@ -23,29 +24,23 @@ import CircleType from 'circletype';
 })
 export class CampgroundListComponent implements OnInit, AfterViewInit {
   campgrounds: Campground[] = [];
-  map!: L.Map;
+  map!: mapboxgl.Map;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private campgroundService: CampgroundService,
-    private router: Router
+    private router: Router,
+    private mapboxService: MapboxService
   ) {}
 
   ngOnInit(): void {
     this.loadCampgrounds();
   }
+
   ngAfterViewInit(): void {
-    // Initialize Map
-    this.map = L.map('hero-map').setView([41.3275, 19.8189], 7); // Center on Albania
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution:
-        'Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(this.map);
+    this.map = this.mapboxService.initializeMap('hero-map', [19.8189, 41.3275], 7);
+    this.map.addControl(new mapboxgl.NavigationControl());
   
-    // Add Campground Markers
-    this.addMarkersToMap(this.campgrounds);
-  
-    // Setup Circular Text
     const circleText = document.getElementById('circle-text');
     if (circleText) {
       new CircleType(circleText).radius(150);
@@ -54,52 +49,83 @@ export class CampgroundListComponent implements OnInit, AfterViewInit {
         section?.scrollIntoView({ behavior: 'smooth' });
       });
     }
-  }
   
+    this.loadCampgrounds();
+  }
   
   loadCampgrounds(): void {
     this.campgroundService.getCampgrounds().subscribe({
       next: (response: any) => {
         if (response && response.$values) {
-          this.campgrounds = response.$values.map((campground: Campground) => {
-            if (!campground.geometry || !campground.geometry.coordinates) {
-              campground.geometry = { coordinates: [0, 0] }; // Default coordinates
+          this.campgrounds = response.$values.map((campground: any) => {
+  
+            campground.images = campground.images?.$values || [];
+  
+            if (!campground.geometry) {
+              campground.geometry = { coordinates: [] };
             }
-
-            if (!campground.images || campground.images.length === 0) {
-              campground.images = [
-                { url: this.getRandomImageUrl(), filename: 'placeholder' },
-              ];
+  
+            if (campground.latitude && campground.longitude) {
+              campground.geometry.coordinates = [campground.longitude, campground.latitude];
+            } else {
+              campground.geometry.coordinates = [0, 0];
             }
-
+  
             return campground;
           });
-
-          this.addMarkersToMap(this.campgrounds);
+  
+          this.addMarkersToMap();
         }
       },
       error: (err) => {
-        console.error('Error fetching campgrounds', err);
+        console.error('Error fetching campgrounds:', err);
       },
     });
   }
-
-  addMarkersToMap(campgrounds: Campground[]): void {
-    if (this.map) {
-      campgrounds.forEach((campground) => {
+  
+  
+  addMarkersToMap(): void {
+    if (this.map && this.campgrounds.length > 0) {
+      const bounds = new mapboxgl.LngLatBounds();
+  
+      this.campgrounds.forEach((campground, index) => {
         const [longitude, latitude] = campground.geometry.coordinates;
+  
 
-        if (longitude && latitude) {
-          L.marker([latitude, longitude])
-            .addTo(this.map)
-            .bindPopup(
-              `<b>${campground.name}</b><br>${campground.location}`
-            );
+  
+        if (longitude && latitude && latitude !== 0 && longitude !== 0) {
+          new mapboxgl.Marker({ color: '#82a569' })
+            .setLngLat([longitude, latitude])
+            .setPopup(
+              new mapboxgl.Popup({ offset: 25 }).setHTML(
+                `<div style="color: black;">
+                  <strong>${campground.name || 'Unknown Name'}</strong><br>
+                  ${campground.location || 'No Location Provided'}<br>
+                  Price: $${campground.price || 'N/A'}
+                </div>`
+              )
+            )
+            .addTo(this.map);
+  
+          bounds.extend([longitude, latitude]);
+        } else {
+          console.warn(`Invalid coordinates for campground: ${campground.name}`);
         }
       });
+  
+      if (!bounds.isEmpty()) {
+        this.map.fitBounds(bounds, { padding: 50 });
+      } else {
+        console.warn('No valid markers to fit bounds');
+      }
+  
+      this.map.resize();
+    } else {
+      console.warn('Map or campgrounds data is missing');
     }
   }
-
+  
+ 
   getRandomImageUrl(): string {
     return `https://picsum.photos/400?random=${Math.random()}`;
   }
@@ -111,7 +137,6 @@ export class CampgroundListComponent implements OnInit, AfterViewInit {
       circleText.addEventListener('click', this.scrollToCards.bind(this));
     }
   }
-  
 
   scrollToCards(): void {
     const section = document.getElementById('campground-cards');

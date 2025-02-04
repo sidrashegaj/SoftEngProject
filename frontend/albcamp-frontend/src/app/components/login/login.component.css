@@ -1,50 +1,44 @@
-/* Full Page Video Background Container */
 .video-bg-container {
     position: relative;
     width: 100%;
-    height: 100vh; /* Full viewport height */
-    overflow: hidden; /* Prevents video from overflowing */
+    height: 100vh; 
+    overflow: hidden; 
   }
   
-  /* Video Element */
   .video-bg {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ensures the video covers the entire background */
-    z-index: -2; /* Sends video behind all other elements */
+    object-fit: cover; 
+    z-index: -2; 
   }
   
-  /* Optional: Overlay for Contrast */
   .overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4); /* Dark overlay for better contrast */
-    z-index: -1; /* Ensures it's above the video but below the content */
+    background: rgba(0, 0, 0, 0.4); 
+    z-index: -1; 
   }
   
-  /* Login Section Styling */
   .login-section {
     position: absolute;
-    top: 50%; /* Centers the login form vertically */
-    left: 50%; /* Centers the login form horizontally */
-    transform: translate(-50%, -50%); /* Ensures perfect centering */
-    z-index: 1; /* Ensures the login form stays above the video and overlay */
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    z-index: 1; 
   }
   
-  /* Card Styling */
   .card {
-    background-color: rgba(255, 255, 255, 0.95); /* Semi-transparent white */
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    background-color: rgba(255, 255, 255, 0.95); 
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); 
     border-radius: 20px;
   }
   
-  /* Button Styling */
   .btn-custom-primary {
     background-color: #00bfa5;
     color: white;
@@ -58,7 +52,6 @@
     background-color: #00997c;
   }
   
-  /* Form Elements */
   .form-control {
     border-radius: 50px;
     padding: 10px 20px;
@@ -71,7 +64,6 @@
     outline: none;
   }
   
-  /* Text Link */
   .text-custom {
     color: #00bfa5;
     font-weight: bold;
@@ -81,7 +73,6 @@
     color: #00997c;
   }
   
-  /* Responsive Design */
   @media (max-width: 768px) {
     .card {
       max-width: 90%;

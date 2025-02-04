@@ -22,8 +22,8 @@ export class EditCampgroundComponent implements OnInit {
     description: '',
     images: [],
     name: '',
-    longitude: 0, // Added missing properties
-    latitude: 0,  // Added missing properties
+    longitude: 0, 
+    latitude: 0,  
     campgroundId: 0,
     author: {
       _id: 0,
@@ -51,7 +51,6 @@ export class EditCampgroundComponent implements OnInit {
     this.campgroundService.getCampground(this.campgroundId).subscribe((campground) => {
       this.campground = campground;
   
-      // Ensure `images` is an array
       if (!Array.isArray(this.campground.images)) {
         this.campground.images = [];
       }
@@ -66,7 +65,6 @@ export class EditCampgroundComponent implements OnInit {
   onSubmit(): void {
     const formData = new FormData();
   
-    // Append basic details
     formData.append('name', this.campground.name);
     formData.append('location', this.campground.location);
     formData.append('price', this.campground.price.toString());
@@ -74,31 +72,27 @@ export class EditCampgroundComponent implements OnInit {
     formData.append('latitude', this.campground.latitude.toString());
     formData.append('longitude', this.campground.longitude.toString());
   
-    // Append new images
     for (const file of this.selectedImages) {
       formData.append('images', file);
     }
   
-    // Append existing images to keep
-    for (const img of this.campground.images) {
-      if (!this.deleteImages.includes(img.filename)) {
-        formData.append('existingImages[]', img.filename);
+    if (this.deleteImages.length > 0) {
+      for (const filename of this.deleteImages) {
+        formData.append('deleteImages[]', filename);
       }
-    }
-  
-    // Append images to delete
-    for (const filename of this.deleteImages) {
-      formData.append('deleteImages[]', filename);
+    } else {
+      formData.append('deleteImages[]', ''); 
     }
   
     this.campgroundService.updateCampground(this.campgroundId, formData).subscribe({
       next: () => {
         this.flashMessageService.showMessage('Campground updated successfully!', 5000);
-        this.router.navigate(['/campgrounds']);
+  
+        this.router.navigate(['/campgrounds', this.campgroundId]);
       },
       error: (err) => {
         console.error('Error updating campground', err);
-        this.flashMessageService.showMessage('Failed to update the campground.', 5000);
+        this.flashMessageService.showMessage('You are not authorized to update this campground.', 5000);
       },
     });
   }

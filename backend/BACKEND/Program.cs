@@ -64,16 +64,22 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AlbCampDbContext>();
-    context.Database.Migrate();
     try
     {
+        Console.WriteLine("Applying migrations...");
+        context.Database.Migrate();
+        Console.WriteLine("Migrations applied successfully.");
+
+        Console.WriteLine("Seeding database...");
         DbInitializer.Initialize(context);
+        Console.WriteLine("Database seeded successfully.");
     }
     catch (Exception ex)
     {
-        Console.WriteLine($"Database seeding error: {ex.Message}");
+        Console.WriteLine($"Error during database initialization: {ex.Message}");
     }
 }
+
 
 // Configure middleware
 if (app.Environment.IsDevelopment())

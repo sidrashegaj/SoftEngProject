@@ -5,7 +5,6 @@
   </div>
 
   <form [formGroup]="campgroundForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
-    <!-- Title -->
     <div class="mb-4">
       <label for="name" class="form-label">Campground Title</label>
       <input
@@ -21,7 +20,6 @@
       </div>
     </div>
 
-    <!-- Location -->
     <div class="mb-4">
       <label for="location" class="form-label">Location</label>
       <input
@@ -37,7 +35,6 @@
       </div>
     </div>
 
-    <!-- Latitude & Longitude -->
     <div class="row">
       <div class="col-md-6 mb-4">
         <label for="latitude" class="form-label">Latitude</label>
@@ -69,7 +66,6 @@
       </div>
     </div>
 
-    <!-- Price -->
     <div class="mb-4">
       <label for="price" class="form-label">Price per Night</label>
       <div class="input-group shadow">
@@ -88,7 +84,6 @@
       </div>
     </div>
 
-    <!-- Description -->
     <div class="mb-4">
       <label for="description" class="form-label">Description</label>
       <textarea
@@ -104,7 +99,6 @@
       </div>
     </div>
 
-    <!-- Upload Images -->
     <div class="mb-4">
       <label for="images" class="form-label">Upload Images</label>
       <input
@@ -116,7 +110,6 @@
       />
     </div>
 
-    <!-- Submit Button -->
     <div class="text-center mt-5">
       <button *ngIf="canAddOrDelete()" class="btn btn-success btn-lg px-5 py-2 shadow" type="submit">
         <i class="fas fa-plus-circle"></i> Add Campground

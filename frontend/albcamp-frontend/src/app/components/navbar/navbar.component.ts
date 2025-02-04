@@ -30,7 +30,6 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  // When "New Campground" is clicked
   onNewCampgroundClick() {
     if (this.authService.isAuthenticated()) {
       this.router.navigate(['/campgrounds/new']);
