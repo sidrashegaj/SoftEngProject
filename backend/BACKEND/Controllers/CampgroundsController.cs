@@ -162,11 +162,14 @@ namespace BACKEND.Controllers
                 {
                     foreach (var filename in updateDto.DeleteImages)
                     {
-                        // Remove from Cloudinary (or your image service)
-                        await _photoService.DeleteImageAsync(filename);
+                        if (!string.IsNullOrWhiteSpace(filename)) // Ensure filename is not null or empty
+                        {
+                            // Remove from Cloudinary
+                            await _photoService.DeleteImageAsync(filename);
 
-                        // Remove from the database
-                        campground.Images.RemoveAll(img => img.Filename == filename);
+                            // Remove from the database
+                            campground.Images.RemoveAll(img => img.Filename == filename);
+                        }
                     }
                 }
 
@@ -197,8 +200,6 @@ namespace BACKEND.Controllers
                 return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }
-
-
 
         // DELETE: api/Campgrounds/{id}
         [HttpDelete("{id}")]
@@ -265,20 +266,28 @@ namespace BACKEND.Controllers
 
         [HttpGet("nearby")]
         public async Task<IActionResult> GetCampgroundsNearby(
-            [FromQuery] double userLat,
-            [FromQuery] double userLng,
-            [FromQuery] double radiusInKm = 50)
+       [FromQuery] double userLat,
+       [FromQuery] double userLng,
+       [FromQuery] double radiusInKm = 50)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid input for coordinates or radius.");
+            }
+
+            // Fetch campgrounds with valid coordinates
             var campgrounds = await _context.Campgrounds.ToListAsync();
 
+            // Calculate distances and filter by radius
             var nearbyCampgrounds = campgrounds.Where(c =>
             {
                 var distance = CalculateDistance(userLat, userLng, c.Latitude, c.Longitude);
                 return distance <= radiusInKm;
             });
 
-            return Ok(nearbyCampgrounds);
+            return Ok(nearbyCampgrounds.ToList());
         }
+
 
         private double CalculateDistance(double lat1, double lng1, double lat2, double lng2)
         {
@@ -295,5 +304,6 @@ namespace BACKEND.Controllers
         }
 
         private double DegreesToRadians(double degrees) => degrees * Math.PI / 180;
+
     }
 }

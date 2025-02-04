@@ -9,13 +9,13 @@ import { jwtDecode } from 'jwt-decode';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:5259/api/auth'; // Backend API URL
+  private apiUrl = 'http://localhost:5259/api/auth'; 
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
 
   constructor(
     private http: HttpClient,
-    @Inject(PLATFORM_ID) private platformId: any // Determines if code runs in browser or SSR
+    @Inject(PLATFORM_ID) private platformId: any 
   ) {
     const storedUser = isPlatformBrowser(platformId)
       ? localStorage.getItem('currentUser')
@@ -31,9 +31,6 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
-  /**
-   * Login user and store their token and details in localStorage.
-   */
   login(username: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, { username, password }).pipe(
       map((response) => {
@@ -41,17 +38,17 @@ export class AuthService {
           try {
             const decodedToken: any = jwtDecode(response.token);
             console.log('Decoded token:', decodedToken);
-
+  
             const user = {
-              userId: decodedToken.UserId || decodedToken.userId || decodedToken.id,
+              userId: parseInt(decodedToken.UserId || decodedToken.userId || decodedToken.id, 10), // Parse to number
               username: decodedToken.sub,
               token: response.token,
             };
-
+  
             // Store in localStorage
             localStorage.setItem('currentUser', JSON.stringify(user));
             this.currentUserSubject.next(user);
-
+  
             return user;
           } catch (error) {
             console.error('Invalid token:', error);
@@ -62,10 +59,8 @@ export class AuthService {
       })
     );
   }
+  
 
-  /**
-   * Register user and store their token and details in localStorage.
-   */
   register(username: string, email: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/register`, { username, email, password }).pipe(
       map((response) => {
@@ -79,7 +74,6 @@ export class AuthService {
               token: response.token,
             };
 
-            // Store in localStorage
             localStorage.setItem('currentUser', JSON.stringify(user));
             this.currentUserSubject.next(user);
 
@@ -94,9 +88,7 @@ export class AuthService {
     );
   }
 
-  /**
-   * Logs out the user, clears localStorage and BehaviorSubject.
-   */
+
   logout(): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('currentUser');
@@ -104,15 +96,13 @@ export class AuthService {
     }
   }
 
-  /**
-   * Checks if the user is authenticated (token exists and is not expired).
-   */
+
   isAuthenticated(): boolean {
     const token = this.getToken();
     if (token) {
       try {
         const decodedToken: any = jwtDecode(token);
-        const now = Math.floor(Date.now() / 1000); // Current time in seconds
+        const now = Math.floor(Date.now() / 1000); 
         if (decodedToken.exp && decodedToken.exp < now) {
           console.warn('Token has expired');
           this.logout();
@@ -127,33 +117,31 @@ export class AuthService {
     return false;
   }
 
-  /**
-   * Retrieves the token of the current user.
-   */
+
   getToken(): string | null {
     const currentUser = this.currentUserValue;
     return currentUser ? currentUser.token : null;
   }
 
-  /**
-   * Checks if a user is logged in (checks localStorage for user data).
-   */
+
   isLoggedIn(): boolean {
     return !!localStorage.getItem('currentUser');
   }
 
-  /**
-   * Retrieves the userId of the current user from localStorage.
-   */
   getUserId(): number {
     const storedUser = localStorage.getItem('currentUser');
     const user = storedUser ? JSON.parse(storedUser) : null;
-    return user ? user.userId : 0;
+  
+    if (user) {
+      console.log('Decoded User:', user); // Debug log
+      return user.userId;
+    }
+  
+    console.warn('No user found in localStorage');
+    return 0;
   }
+  
 
-  /**
-   * Retrieves the username of the current user from localStorage.
-   */
   getUsername(): string | null {
     const currentUser = this.currentUserValue;
     return currentUser ? currentUser.username : null;

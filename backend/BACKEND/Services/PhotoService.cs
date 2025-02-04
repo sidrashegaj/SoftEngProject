@@ -50,16 +50,20 @@ namespace BACKEND.Services
 
         public async Task DeleteImageAsync(string publicId)
         {
-            if (string.IsNullOrEmpty(publicId))
-                throw new ArgumentException("PublicId cannot be null or empty", nameof(publicId));
+            if (string.IsNullOrWhiteSpace(publicId))
+            {
+                Console.WriteLine("Skipping deletion: PublicId is null or empty.");
+                return;
+            }
 
             var deletionParams = new DeletionParams(publicId);
             var result = await _cloudinary.DestroyAsync(deletionParams);
 
             if (result.Result != "ok")
             {
-                throw new Exception("Failed to delete image on Cloudinary.");
+                Console.WriteLine($"Failed to delete image with PublicId: {publicId}");
             }
         }
+
     }
 }

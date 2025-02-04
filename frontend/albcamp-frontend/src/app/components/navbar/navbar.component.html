@@ -1,9 +1,7 @@
 <nav class="navbar navbar-expand-lg py-3">
   <div class="container">
-    <!-- Brand Logo -->
     <a class="navbar-brand fw-bold text-light" (click)="onLogo()">Alb<span class="text-highlight">Camp</span></a>
 
-    <!-- Hamburger Menu -->
     <button
       class="navbar-toggler"
       type="button"
@@ -16,9 +14,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- Navbar Links -->
     <div class="collapse navbar-collapse" id="navbarNav">
-      <!-- Left Aligned Links -->
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
           <a class="nav-link" (click)="onAll()">All Campgrounds</a>
@@ -28,7 +24,6 @@
         </li>
       </ul>
 
-      <!-- Right Aligned Links -->
       <ul class="navbar-nav ms-auto">
         <li class="nav-item" *ngIf="!authService.isAuthenticated()">
           <a class="btn btn-outline me-2" (click)="onLoginClick()">Login</a>

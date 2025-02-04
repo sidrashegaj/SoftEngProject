@@ -1,14 +1,14 @@
-/* Navbar Styles */
 .navbar {
-  background-color: #042414; /* Dark background */
+  background-color: #042414; 
   padding: 0.5rem 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
   position: sticky;
   top: 0;
   z-index: 1000;
 }
 
 .navbar-brand {
+  cursor: pointer;
   font-size: 1.5rem;
   font-family: 'Cinzel', serif;
   color: #ffffff;
@@ -39,11 +39,12 @@
 }
 
 .nav-link:hover {
+  cursor: pointer;
   color: #12864c; 
 }
 
-/* Buttons */
 .btn-outline {
+  cursor: pointer;
   color: #18bd6a;
   border: 1px solid #18bd6a;
   background-color: transparent;
@@ -55,6 +56,7 @@
 }
 
 .btn-outline:hover {
+  cursor: pointer;
   color: #212529;
   background-color: #12864c; 
   border: 1px solid #12864c;

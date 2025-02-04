@@ -1,71 +1,141 @@
-/* General Layout */
+.card {
+  background: linear-gradient(to bottom, #e8f5e9, #c8e6c9); 
+  border-radius: 15px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); 
+  margin-bottom: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-  
-  /* Cards */
-  .card {
-    background: #e8f5f5; /* Light greenish background */
-    border-radius: 15px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-    margin-bottom: 20px;
-  }
-  
-  .card-body {
-    color: #043927;
-    padding: 20px;
-  }
-  
-  .price-highlight {
-    color: #00796b;
-    font-weight: bold;
-  }
-  
-  /* Map */
-  #map {
-    height: 400px;
-    border-radius: 15px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Reviews Section */
-  .reviews-section {
-    padding: 20px;
-    background: #d9f2f2; /* Slight green tint */
-    border-radius: 15px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-  }
-  
-  .reviews-section h3 {
-    color: #043927;
-    font-weight: bold;
-  }
-  
-  /* Star Ratings */
-  .starability-grow label {
-    color: #f0ad4e;
-    font-size: 1.5rem;
-    transition: color 0.3s;
-  }
-  
-  .starability-grow input[type="radio"]:checked ~ label,
-  .starability-grow input[type="radio"]:hover ~ label {
-    color: #ffc107;
-  }
-  
-  /* Buttons */
-  .btn-success {
-    background-color: #28a745;
-    border-radius: 5px;
-  }
-  
-  .btn-success:hover {
-    background-color: #218838;
-  }
-  
-  .btn-primary {
-    background-color: #0d6efd;
-  }
-  
-  .btn-primary:hover {
-    background-color: #0056b3;
-  }
-  
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.3); 
+}
+
+.card-body {
+  background: linear-gradient(to bottom, #ffffff, #f1f8e9);
+  color: #2d5a37; 
+  padding: 20px;
+  border-radius: 0 0 15px 15px;
+}
+
+.price-highlight {
+  color: #388e3c; 
+  font-weight: bold;
+  font-size: 1.2rem; 
+}
+
+#map {
+  height: 400px;
+  border-radius: 15px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); 
+}
+
+.reviews-section {
+  padding: 20px;
+  background: linear-gradient(to bottom, #f1f8e9, #c8e6c9); 
+  border-radius: 15px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  margin-bottom: 50px;
+
+}
+
+.reviews-section h3 {
+  color: #2d5a37; 
+  font-weight: bold;
+  font-size: 1.8rem; 
+  margin-bottom: 10px;
+}
+
+.starability-grow label {
+  color: #ffd54f;
+  font-size: 1.8rem;
+  transition: color 0.3s ease, transform 0.2s ease; 
+}
+
+.starability-grow input[type="radio"]:checked ~ label,
+.starability-grow input[type="radio"]:hover ~ label {
+  color: #ffca28;
+  transform: scale(1.1); 
+}
+
+/* Buttons */
+.btn-success {
+  background-color: #4caf50; 
+  border-radius: 25px;
+  padding: 10px 20px;
+  color: #ffffff;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease; 
+  gap: 10px; 
+  margin-left: 20px !important; 
+}
+.btn{
+  border-radius: 25px;
+  padding: 10px 20px;
+  color: #ffffff;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease; 
+}
+.btn-success:hover {
+  background-color: #43a047; 
+  transform: scale(1.05); 
+}
+
+.btn-primary {
+  background-color: #2196f3; 
+  border-radius: 25px;
+  padding: 10px 20px;
+  color: #ffffff;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #1e88e5; 
+  transform: scale(1.05);
+}
+
+button {
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px); 
+}
+.alert {
+  background: linear-gradient(to right, #c8e6c9, #aed581); 
+  color: #2d5a37; 
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2); 
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 20px; 
+  display: flex;
+  flex-direction: column;
+  gap: 10px; 
+}
+
+.alert p {
+  margin: 0;
+  font-weight: bold; 
+}
+
+.alert button {
+  margin-top: 10px;
+  background-color: #4caf50; 
+  border: none;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 25px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.alert button:hover {
+  background-color: #43a047; 
+  transform: scale(1.05); 
+}
+

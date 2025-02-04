@@ -12,27 +12,45 @@ namespace BACKEND.Controllers
     {
         private readonly AlbCampDbContext _context;
 
+        // Constructor
         public ReviewsController(AlbCampDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Reviews/campground/5
+        // GET: api/reviews/campground/{campgroundId}
         [HttpGet("campground/{campgroundId}")]
         public async Task<ActionResult<IEnumerable<Review>>> GetReviewsForCampground(int campgroundId)
         {
             var reviews = await _context.Reviews
-                                         .Where(r => r.CampgroundId == campgroundId)
-                                         .Include(r => r.User)
-                                         .ToListAsync();
+                .Where(r => r.CampgroundId == campgroundId)
+                .Include(r => r.User) // Include the related user
+                .Select(r => new
+                {
+                    r.ReviewId,
+                    r.Text,
+                    r.Timestamp,
+                    r.Rating,
+                    UserId = r.UserId, // Ensure UserId is part of the response
+                    Username = r.User.Username // Optional: Include username
+                })
+                .ToListAsync();
+
+            if (reviews == null || !reviews.Any())
+            {
+                return NotFound("No reviews found for this campground.");
+            }
+
             return Ok(reviews);
         }
 
-        // POST: api/Reviews/campground/5
+        // POST: api/reviews/campground/{campgroundId}
         [HttpPost("campground/{campgroundId}")]
         [Authorize]
         public async Task<IActionResult> PostReview(int campgroundId, [FromBody] ReviewDto reviewDto)
         {
+            Console.WriteLine($"Received Review for Campground ID: {campgroundId}");
+
             var userIdClaim = User.FindFirst("UserId");
             if (userIdClaim == null)
             {
@@ -40,6 +58,7 @@ namespace BACKEND.Controllers
             }
 
             var userId = int.Parse(userIdClaim.Value);
+
             var user = await _context.Users.FindAsync(userId);
             if (user == null)
             {
@@ -63,33 +82,61 @@ namespace BACKEND.Controllers
 
             _context.Reviews.Add(review);
             await _context.SaveChangesAsync();
-            return CreatedAtAction("GetReviewsForCampground", new { campgroundId }, review);
+
+            // Fetch the review with the User information
+            var savedReview = await _context.Reviews
+                .Include(r => r.User)
+                .FirstOrDefaultAsync(r => r.ReviewId == review.ReviewId);
+
+            return CreatedAtAction(nameof(GetReviewsForCampground), new { campgroundId }, new
+            {
+                savedReview.ReviewId,
+                savedReview.Text,
+                savedReview.Rating,
+                savedReview.Timestamp,
+                User = new
+                {
+                    savedReview.User.UserId,
+                    savedReview.User.Username
+                }
+            });
         }
 
-
-        // DELETE: api/Reviews/5
+        // DELETE: api/reviews/{reviewId}
         [HttpDelete("{reviewId}")]
-        [Authorize] // Ensure only logged-in users can delete reviews
+        [Authorize]
         public async Task<IActionResult> DeleteReview(int reviewId)
         {
+            // Fetch the review
             var review = await _context.Reviews.FindAsync(reviewId);
             if (review == null)
             {
                 return NotFound("Review not found.");
             }
 
-            var userId = int.Parse(User.FindFirst("UserId")?.Value ?? "0");
+            // Extract UserId from token
+            var userIdClaim = User.FindFirst("UserId");
+            if (userIdClaim == null)
+            {
+                Console.WriteLine("UserId claim not found in token.");
+                return Unauthorized("User not authenticated.");
+            }
 
-            // Ensure user owns the review before deleting
+            var userId = int.Parse(userIdClaim.Value);
+            Console.WriteLine($"Review UserId: {review.UserId}, Token UserId: {userId}");
+
+            // Check ownership
             if (review.UserId != userId)
             {
                 return Unauthorized("You can only delete your own reviews.");
             }
 
+            // Delete the review
             _context.Reviews.Remove(review);
             await _context.SaveChangesAsync();
 
             return Ok(new { message = "Review deleted successfully." });
         }
+
     }
 }
